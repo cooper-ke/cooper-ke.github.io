@@ -20,6 +20,7 @@ courses = [
 doc = dominate.document(title="Class index")
 with doc.head:
     link(rel="icon", href="favicon.png")
+    link(rel="stylesheet", href="style.css")
 with doc:
     h1("Welcome!")
     p("Below is a list of courses that are supported by this program.")
@@ -35,14 +36,15 @@ for course in courses:
     doc = dominate.document(title=course.name)
     with doc.head:
         link(rel="icon", href="favicon.png")
+        link(rel="stylesheet", href="style.css")
     with doc:
         h1(course.name)
-        p("Tutors:")
-        with div(id="tutors").add(ul()):
+        h3("Tutors:")
+        with div(cls="resource_list").add(ul()):
             for tutor in course.tutors:
                 li(tutor)
-        p("Resources:")
-        with div(id="resources").add(ul()):
+        h3("Resources:")
+        with div(cls="resource_list").add(ul()):
             for resource in course.resources:
                 li(a(resource.name, href=resource.link))
         a("Return to index", href="index.html")

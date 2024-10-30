@@ -1,0 +1,4 @@
+/* Make lists of resources appear closer to the headings */
+h3 {
+	margin-bottom: 0;
+}
