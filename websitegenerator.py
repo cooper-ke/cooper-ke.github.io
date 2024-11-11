@@ -12,8 +12,16 @@ class Resource:
         self.name = name # Name of the resource
         self.link = link # Link to the resouce
 
+class Tutor:
+    def __init__(self, name, email, phone_number):
+        self.name = name
+        self.email = email
+        self.phone_number = phone_number
+
 courses = [
-    Course("DS5110", ["John Smith", "Jane Doe"], [Resource("Khan Academy Python", "https://www.khanacademy.org/computing/intro-to-python-fundamentals")])
+    Course("DS5110",
+           [Tutor("John Smith", "smith.j@northeastern.edu", "617-777-7777"), Tutor("Jane Doe", "doe.j@northeastern.edu", "617-444-4444")],
+           [Resource("Khan Academy Python", "https://www.khanacademy.org/computing/intro-to-python-fundamentals")])
     ]
 
 # Generate index.html
@@ -42,7 +50,10 @@ for course in courses:
         h3("Tutors:")
         with div(cls="resource_list").add(ul()):
             for tutor in course.tutors:
-                li(tutor)
+                li(tutor.name)
+                with div().add(ul()):
+                    li("Email: " + tutor.email)
+                    li("Phone: " + tutor.phone_number)
         h3("Resources:")
         with div(cls="resource_list").add(ul()):
             for resource in course.resources:
