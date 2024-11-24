@@ -1,11 +1,12 @@
 import dominate
 from dominate.tags import *
+import csv
 
 class Course:
     def __init__(self, name, tutors, resources):
         self.name = name # String, name of the course
-        self.tutors = tutors # List of strings, names of tutors
-        self.resources = resources # List of Resource classes
+        self.tutors = tutors # List of Tutors
+        self.resources = resources # List of Resources
 
 class Resource:
     def __init__(self, name, link):
@@ -14,15 +15,37 @@ class Resource:
 
 class Tutor:
     def __init__(self, name, email, phone_number):
-        self.name = name
-        self.email = email
-        self.phone_number = phone_number
-
-courses = [
-    Course("DS5110",
-           [Tutor("John Smith", "smith.j@northeastern.edu", "617-777-7777"), Tutor("Jane Doe", "doe.j@northeastern.edu", "617-444-4444")],
-           [Resource("Khan Academy Python", "https://www.khanacademy.org/computing/intro-to-python-fundamentals")])
-    ]
+        self.name = name # String
+        self.email = email # String
+        self.phone_number = phone_number # String
+      
+# Grab CSV data to create website
+courses = []
+with open("DS5110ExampleFormResponses.csv") as responses_file:
+    responses = csv.reader(responses_file)
+    for response in responses:
+        # Add a tutor
+        if response[0] == "Self":
+            added_tutor = False
+            for course in courses:
+                if course.name == response[4]:
+                    course.tutors.append(Tutor(response[1], response[2], response[3]))
+                    added_tutor = True
+                    break
+            if added_tutor == False:
+                courses.append(Course(response[4],
+                                      [Tutor(response[1], response[2], response[3])], []))
+        # Add a material
+        elif response[0] == "Material":
+            added_resource = False
+            for course in courses:
+                if course.name == response[6]:
+                    course.resources.append(Resource("Resource", response[7]))
+                    added_resource = True
+                    break
+            if added_resource == False:
+                courses.append(Course(response[6], [],
+                                      [Resource("Resource", response[7])]))
 
 # Generate index.html
 doc = dominate.document(title="Class index")
