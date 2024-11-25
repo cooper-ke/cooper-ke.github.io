@@ -1,6 +1,6 @@
 import dominate
 from dominate.tags import *
-import csv
+import pandas as pd
 
 class Course:
     def __init__(self, name, tutors, resources):
@@ -8,44 +8,46 @@ class Course:
         self.tutors = tutors # List of Tutors
         self.resources = resources # List of Resources
 
+class Tutor:
+    def __init__(self, name, email, phone_number, can_tutor, availability):
+        self.name = name # String
+        self.email = email # String
+        self.phone_number = phone_number # String
+        self.can_tutor = can_tutor # Boolean
+        self.availability = availability # String
+
 class Resource:
     def __init__(self, name, link):
         self.name = name # Name of the resource
         self.link = link # Link to the resouce
 
-class Tutor:
-    def __init__(self, name, email, phone_number):
-        self.name = name # String
-        self.email = email # String
-        self.phone_number = phone_number # String
-      
 # Grab CSV data to create website
+df = pd.read_csv("responses.csv")
+
+# Generate courses from the dataframe
 courses = []
-with open("DS5110ExampleFormResponses.csv") as responses_file:
-    responses = csv.reader(responses_file)
-    for response in responses:
-        # Add a tutor
-        if response[0] == "Self":
-            added_tutor = False
-            for course in courses:
-                if course.name == response[4]:
-                    course.tutors.append(Tutor(response[1], response[2], response[3]))
-                    added_tutor = True
-                    break
-            if added_tutor == False:
-                courses.append(Course(response[4],
-                                      [Tutor(response[1], response[2], response[3])], []))
-        # Add a material
-        elif response[0] == "Material":
-            added_resource = False
-            for course in courses:
-                if course.name == response[6]:
-                    course.resources.append(Resource("Resource", response[7]))
-                    added_resource = True
-                    break
-            if added_resource == False:
-                courses.append(Course(response[6], [],
-                                      [Resource("Resource", response[7])]))
+unique_courses = df["class_id"].unique()
+for course in unique_courses:
+    courses.append(Course(course.upper(), [], []))
+
+# For each course, grab the relevant tutors and resources
+for index, row in df.iterrows():
+    for course in courses:
+        if course.name == row["class_id"].upper():
+            can_tutor = (True if row["can_tutor"] == "Yes" else False)
+            course.tutors.append(
+                Tutor(row["name"], row["email"], "617-777-7777", can_tutor, row["tutoring_availability"])
+            )
+            # If we have a resouce uploaded, add that as well
+            if type(row["note_id"]) == float and row["note_id"] > 0:
+                course.resources.append(
+                    Resource(row["note_title"], row["content"].rsplit('/', 1)[-1])
+                )
+            if type(row["notebook_id"]) == float and row["notebook_id"] > 0:
+                course.resources.append(
+                    Resource(row["title"], row["file"].rsplit('/', 1)[-1])
+                )
+            break
 
 # Generate index.html
 doc = dominate.document(title="Class index")
@@ -77,10 +79,15 @@ for course in courses:
                 with div().add(ul()):
                     li("Email: " + tutor.email)
                     li("Phone: " + tutor.phone_number)
+                    if tutor.can_tutor:
+                        li("Availability: " + tutor.availability)
+                    else:
+                        li("This person is not available to tutor at this time")
+        br()
         h3("Resources:")
         with div(cls="resource_list").add(ul()):
             for resource in course.resources:
                 li(a(resource.name, href=resource.link))
         a("Return to index", href="index.html")
-    with open(f"{course.name}.html", "w") as f:
+    with open(f"{course.name}.html", "w", encoding="utf-8") as f:
         f.write(str(doc))
