@@ -23,6 +23,8 @@ class Resource:
 
 # Grab CSV data to create website
 df = pd.read_csv("responses.csv")
+# Crate an empty dataframe to show how it generates
+#df = pd.DataFrame(    columns=["student_id","name","email","class_id","class_name","credits","department","can_tutor","tutoring_availability","note_id","note_title","content","notebook_id","title","file"])
 
 # Generate courses from the dataframe
 courses = []
@@ -34,7 +36,7 @@ for course in unique_courses:
 for index, row in df.iterrows():
     for course in courses:
         if course.name == row["class_id"].upper():
-            can_tutor = (True if row["can_tutor"] == "Yes" else False)
+            can_tutor = (row["can_tutor"] == "Yes")
             course.tutors.append(
                 Tutor(row["name"], row["email"], "617-777-7777", can_tutor, row["tutoring_availability"])
             )
