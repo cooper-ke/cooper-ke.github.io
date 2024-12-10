@@ -24,6 +24,7 @@ class Resource:
 # Grab CSV data to create website
 df = pd.read_csv("responses.csv")
 # Crate an empty dataframe to show how it generates
+# Comment out this line to show responses
 #df = pd.DataFrame(    columns=["student_id","name","email","class_id","class_name","credits","department","can_tutor","tutoring_availability","note_id","note_title","content","notebook_id","title","file"])
 
 # Generate courses from the dataframe
