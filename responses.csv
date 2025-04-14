@@ -1,5 +1,0 @@
-﻿student_id,name,email,class_id,class_name,credits,department,can_tutor,tutoring_availability,note_id,note_title,content,notebook_id,title,file
-1,Felipe Quiroz,quiroz.w@northeastern.edu,ds5110,Intro to Data Management and Processing,4,Khoury,Yes,I can tutor only on Friday mornings,1,syllabus,/Users/felipequiroz/Desktop/DS5110/DataProject/DS 5110_Syllabus_Fall2024-3.pdf,,,
-2,Kevin Cooper,cooper.ke@northeastern.edu,ds5110,Intro to Data Management and Processing,4,Khoury,Yes,Email me for tutoring,,,,1,screenshot,/Users/felipequiroz/Desktop/DS5110/DataProject/Screenshot 2024-11-25 at 5.13.25 AM.png
-3,Jon Jones,bones@ufc.com,ds5110,Intro to Data Management and Processing,4,Khoury,No,n/a,2,commands video,/Users/felipequiroz/Desktop/DS5110/DataProject/IMG_6859.MOV,,,
-4,Tony Ferguson,tony@ufc.com,cs1210,khoury co-op,2,Khoury,No,n/a,,,,2,schedule,/Users/felipequiroz/Desktop/DS5110/DataProject/Fall_2024Schedule-FatemaNafa.pdf

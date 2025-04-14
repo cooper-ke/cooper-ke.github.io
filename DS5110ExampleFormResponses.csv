@@ -1,4 +1,0 @@
-Are you entering data for yourself or a material?,What is your name?,What is your email address?,What is your phone number?,Which classes have you taken so far? (please separate each class with a comma),Can you tutor for your classes?,What class are these files for?,"Upload file(s) here (make sure that they have names reflecting what they are, e.g. Example Guide #1)"
-Self,John Smith,smith.j@northeastern.edu,617-777-7777,DS5110,Yes,,
-Self,Jane Doe,doe.j@northeastern.edu,617-444-4444,DS5110,Yes,,
-Material,,,,,,DS5110,https://www.khanacademy.org/computing/intro-to-python-fundamentals
